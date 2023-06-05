@@ -15,6 +15,7 @@ type Book = {
   publisherName?: string;
   price: number;
   stock: number;
+  category?: string;
 };
 
 type Publisher = {

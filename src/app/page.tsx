@@ -3,32 +3,32 @@ import SearchField from "@/components/inputs/SearchField";
 
 async function getBooks() {
   const res = await fetch("http://localhost:3000/api/getbooks", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
+    cache: "no-store",
   });
+  const data = await res.json();
 
-  return await res.json();
+  return data;
 }
 
-async function getPublisher() {
+async function getPublishers() {
   const res = await fetch("http://localhost:3000/api/getpublisher", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
+    cache: "no-store",
   });
+  const data = await res.json();
 
-  return await res.json();
+  return data;
 }
 
 export default async function Home() {
   const books = await getBooks();
-  const publisher = await getPublisher();
+  const publishers = await getPublishers();
 
   return (
     <main className="w-full min-h-screen px-8 py-8 flex flex-col gap-8">
       <SearchField />
       <div className="grid grid-cols-2 gap-4">
-        {books.map((book: Book) => {
-          const publisherName = publisher
+        {books?.map((book: Book) => {
+          const publisherName = publishers
             .filter((value: Publisher) => value.id === book.publisherId)
             .map((publisher: Publisher) => publisher.name);
 

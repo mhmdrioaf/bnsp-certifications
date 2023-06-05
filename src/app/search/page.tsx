@@ -31,11 +31,7 @@ export default async function Search() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q")!;
 
-  //   const books: Book[] = [];
-
   const books = await searchBooks(searchQuery);
-  console.log(books);
-
   const publisher = await getPublisher();
 
   return (
