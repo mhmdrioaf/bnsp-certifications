@@ -1,17 +1,27 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 
 export default function SearchField() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   function onSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const encodedSearchQuery = encodeURI(searchQuery);
-    router.push(`/search?q=${encodedSearchQuery}`);
+    router.push("/search" + "?" + createQueryString("q", searchQuery));
   }
 
   return (
